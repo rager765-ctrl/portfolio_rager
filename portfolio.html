@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mr.Rager- My Portfolio</title>
+    -<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">-->
+    
+            <link rel="stylesheet" href="portfolio.css">
+            <script src="script.js" defer></script>
+
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div class="logo">Mr.Rager</div>
+        <ul class="nav-links">
+            <li><a href="#home">Home</a></li>
+            <li><a href="#about">About</a></li>
+           <li><a href="#projects">Projects</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="hero-content">
+            <div class="hero-label">My Portfolio</div>
+            <h1>Hi, I'm <span class="accent-text">Opoku Kelvin Nana Yaw</span></h1>
+            <p>A Business Information Technology student passionate about creating innovative digital experiences through code, design, and creative problem-solving.</p>
+            <div class="cta-buttons">
+                <a href="#projects" class="btn btn-primary">View My Work</a>
+                <a href="#contact" class="btn btn-secondary">Get In Touch</a>
+            </div>
+        </div>
+        <div class="hero-decoration">
+            <div class="circle circle-1"></div>
+            <div class="circle circle-2"></div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="about reveal" id="about">
+        <div class="section-header">
+            <div class="section-number"></div>
+            <h2 class="section-title">About Me</h2>
+        </div>
+        <div class="about-grid">
+            <div class="about-text">
+                <h3>Building the future, one line of code at a time</h3>
+                <p>I'm a third-year BIT student with a passion for full-stack development and user experience design. My journey in tech began with curiosity and has evolved into a dedication to creating meaningful digital solutions.</p>
+                <p>When I'm not coding, you'll find me exploring new technologies, contributing to open-source projects, or mentoring fellow students in programming fundamentals.</p>
+            </div>
+            <div class="skills">
+                <div class="skill-tag">JavaScript / TypeScript</div>
+               <!-- <div class="skill-tag">React & Vue.js</div>-->
+                <div class="skill-tag">Python </div>
+                <div class="skill-tag">Node.js</div>
+                <!--<div class="skill-tag">SQL & MongoDB</div>-->
+               <!--<div class="skill-tag">Git & DevOps</div>-->
+                <div class="skill-tag">UI/UX Design</div>
+                <div class="skill-tag">Machine Learning</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Projects Section -->
+   <section class="projects reveal" id="projects">
+        <div class="section-header">
+            <div class="section-number"></div>
+            <h2 class="section-title">Featured Projects</h2>
+        </div>
+        <div class="projects-grid">
+            <div class="project-card">
+                <!--<div class="project-image"> </div>-->
+                <div class="project-content">
+                    <h3 class="project-title">EcoTrack</h3>
+                    <p class="project-description">A sustainability tracking app that helps users monitor their carbon footprint through daily activities. Built with React Native and Firebase.</p>
+                        
+                    <div class="project-tags">  
+                        <span class="tag">React Native</span>
+                        <span class="tag">Firebase</span>
+                        <span class="tag">API Integration</span>
+                    </div>
+                </div>
+            </div>
+            <div class="project-card">
+                <!--<div class="project-image">02</div>-->
+                <div class="project-content">
+                    <h3 class="project-title">StudyBuddy AI</h3>
+                    <p class="project-description">An intelligent study companion using machine learning to create personalized study plans and quiz students on their materials.</p>
+                    <div class="project-tags">
+                        <span class="tag">Python</span>
+                        <span class="tag">TensorFlow</span>
+                        <span class="tag">Flask</span>
+                    </div>
+                </div>
+            </div>
+            <div class="project-card">
+                <!--<div class="project-image">03</div>-->
+                <div class="project-content">
+                    <h3 class="project-title">Campus Connect</h3>
+                    <p class="project-description">A social platform connecting students with similar interests and study groups. Features real-time chat and event management.</p>
+                    <div class="project-tags">
+                        <span class="tag">Vue.js</span>
+                        <span class="tag">Node.js</span>
+                        <span class="tag">Socket.io</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="contact reveal" id="contact">
+        <div class="section-header">
+            <div class="section-number"></div>
+            <h2 class="section-title">Let's Connect</h2>
+        </div>
+        <div class="contact-grid">
+            <div class="contact-info">
+                <h3>Get in touch</h3>
+                <div class="contact-item">
+                    <div class="contact-icon">📧</div>
+                    <div>opoku3765@gmail.com</div>
+                </div>
+                <div class="contact-item">
+                    <div class="contact-icon">📍</div>
+                    <div>Medie-Ghana</div>
+                </div>
+                <div class="contact-item">
+                    <div class="contact-icon">💼</div>
+                    <div>Available for internships</div>
+                </div>
+            </div>
+            <form class="contact-form" id="contactForm">
+                <div class="form-group">
+                    <label for="name">Name</label>
+                    <input type="text" id="name" placeholder="Your name" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" placeholder="your.email@example.com" required>
+                </div>
+                <div class="form-group">
+                    <label for="message">Message</label>
+                    <textarea id="message" placeholder="Your message..." required></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary">Send Message</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="social-links">
+            <a href="#" title="GitHub">GH</a>
+            <a href="#" title="LinkedIn">LI</a>
+            <a href="#" title="Twitter">TW</a>
+            <a href="#" title="CodePen">CP</a>
+        </div>
+        <p>&copy; 2026 Opoku Kelvin NanaYaw. Designed & Built with passion.</p>
+    </footer>
+
+</body>
+</html>
