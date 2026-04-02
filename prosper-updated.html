@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html class="dark" lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>PROSPER | Premium iPhones & Accessories</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#ffffff",
+                        "primary-dark": "#000000",
+                        "on-background": "#ffffff",
+                        "on-surface": "#ffffff",
+                        "surface-variant": "#1f1f1f",
+                        "primary-container": "#ffffff",
+                        "background": "#000000",
+                        "surface-container": "#0a0a0a",
+                        "surface-container-high": "#1a1a1a",
+                        "surface-container-low": "#050505",
+                        "surface-container-lowest": "#000000",
+                        "on-surface-variant": "#b0b0b0",
+                        "outline": "#4a4a4a",
+                        "outline-variant": "#2a2a2a",
+                        "accent": "#f5f5f5",
+                    },
+                    fontFamily: {
+                        "manrope": ["Manrope", "sans-serif"],
+                        "headline": ["Manrope", "sans-serif"],
+                        "body": ["Inter", "sans-serif"],
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "md": "0.375rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+    <style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            display: inline-block;
+            vertical-align: middle;
+        }
+        .glass-nav {
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(24px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .obsidian-glow {
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
+        }
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        
+        body {
+            background-color: #000000;
+            color: #ffffff;
+            min-height: 100dvh;
+        }
+        .text-gradient {
+            background: linear-gradient(to right, #ffffff, #d0d0d0);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .cta-gradient {
+            background: linear-gradient(135deg, #ffffff 0%, #e8e8e8 100%);
+        }
+        .obsidian-gradient {
+            background: linear-gradient(135deg, #1a1a1a 0%, #000000 100%);
+        }
+        .product-card {
+            position: relative;
+            overflow: hidden;
+        }
+        .product-image {
+            transition: transform 0.7s cubic-bezier(0.23, 1, 0.320, 1);
+        }
+        .product-card:hover .product-image {
+            transform: scale(1.05);
+        }
+        .button-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            display: flex;
+            gap: 1rem;
+            padding: 2rem;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.4s cubic-bezier(0.23, 1, 0.320, 1);
+        }
+        .product-card:hover .button-overlay {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .overlay-gradient {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 100%;
+            background: linear-gradient(to top, rgba(0,0,0,0.8), rgba(0,0,0,0.3));
+            opacity: 0;
+            transition: opacity 0.4s;
+        }
+        .product-card:hover .overlay-gradient {
+            opacity: 1;
+        }
+    </style>
+
+    <!-- Load React & Friends -->
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/history@5/umd/history.development.js"></script>
+    <script src="https://unpkg.com/react-router@6.3.0/umd/react-router.development.js"></script>
+    <script src="https://unpkg.com/react-router-dom@6.3.0/umd/react-router-dom.development.js"></script>
+    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-surface font-body selection:bg-white/20">
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState, useEffect } = React;
+        const { createRoot } = ReactDOM;
+        const { MemoryRouter, Routes, Route, Link, useNavigate, useLocation } = ReactRouterDOM;
+
+        // --- Shared Components ---
+
+        const Navbar = () => {
+            const navigate = useNavigate();
+            return (
+                <nav className="fixed top-0 w-full z-50 glass-nav flex items-center justify-between px-6 py-4">
+                    <div className="flex items-center gap-4">
+                        <span className="material-symbols-outlined text-primary cursor-pointer hover:text-accent transition-colors">menu</span>
+                        <Link to="/" className="text-2xl font-black tracking-tighter text-primary font-manrope uppercase">PROSPER</Link>
+                    </div>
+                    <div className="hidden md:flex items-center gap-10">
+                        <Link to="/" className="text-primary font-bold font-manrope tracking-tight hover:text-accent transition-colors text-sm">Home</Link>
+                        <Link to="/shop" className="text-on-surface-variant font-manrope tracking-tight hover:text-primary transition-colors text-sm">Shop</Link>
+                        <Link to="/gallery" className="text-on-surface-variant font-manrope tracking-tight hover:text-primary transition-colors text-sm">Gallery</Link>
+                        <Link to="/about" className="text-on-surface-variant font-manrope tracking-tight hover:text-primary transition-colors text-sm">About</Link>
+                    </div>
+                    <div className="flex items-center gap-4">
+                        <span className="material-symbols-outlined text-primary cursor-pointer hover:text-accent transition-colors">shopping_cart</span>
+                    </div>
+                </nav>
+            );
+        };
+
+        const Footer = () => (
+            <footer className="w-full pt-20 pb-10 bg-surface-container-high border-t border-white/10 mt-auto">
+                <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-3 gap-12">
+                    <div>
+                        <span className="text-primary font-bold text-2xl font-manrope tracking-tighter mb-6 block uppercase">PROSPER</span>
+                        <p className="text-on-surface-variant text-sm mb-8 leading-relaxed max-w-xs font-body">
+                            Elevating the tech experience in West Africa through quality curation and trusted relationships.
+                        </p>
+                        <div className="flex gap-4">
+                            <span className="material-symbols-outlined text-on-surface-variant hover:text-primary cursor-pointer transition-colors">social_leaderboard</span>
+                            <span className="material-symbols-outlined text-on-surface-variant hover:text-primary cursor-pointer transition-colors">retweet</span>
+                        </div>
+                    </div>
+                    <div>
+                        <h4 className="text-white font-bold mb-6 font-manrope text-sm">Quick Links</h4>
+                        <ul className="space-y-4 font-body">
+                            <li><Link className="text-on-surface-variant hover:text-primary text-xs transition-colors" to="/shop">Shop All</Link></li>
+                            <li><a className="text-on-surface-variant hover:text-primary text-xs transition-colors" href="#">Returns</a></li>
+                            <li><a className="text-on-surface-variant hover:text-primary text-xs transition-colors" href="#">Shipping Info</a></li>
+                            <li><a className="text-on-surface-variant hover:text-primary text-xs transition-colors" href="#">MTN MoMo Payments</a></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 className="text-white font-bold mb-6 font-manrope text-sm">Visit Us</h4>
+                        <p className="text-on-surface-variant text-xs mb-4 font-body">
+                            Labone, Accra<br/>
+                            Greater Accra Region, Ghana
+                        </p>
+                        <p className="text-on-surface-variant text-xs font-body">
+                            Monday - Saturday<br/>
+                            09:00 AM - 07:00 PM
+                        </p>
+                    </div>
+                </div>
+                <div className="max-w-7xl mx-auto px-6 mt-20 pt-8 border-t border-white/10 flex flex-col md:flex-row items-center justify-between gap-4">
+                    <p className="font-body text-xs text-on-surface-variant">© 2024 Prosper iPhones. Accra, Ghana.</p>
+                    <div className="flex gap-8">
+                        <a className="text-on-surface-variant text-[10px] uppercase tracking-widest hover:text-white transition-colors" href="#">Privacy</a>
+                        <a className="text-on-surface-variant text-[10px] uppercase tracking-widest hover:text-white transition-colors" href="#">Terms</a>
+                    </div>
+                </div>
+            </footer>
+        );
+
+        const BottomNav = () => (
+            <nav className="md:hidden fixed bottom-0 w-full z-50 bg-background/90 backdrop-blur-2xl rounded-t-3xl shadow-[0_-10px_40px_rgba(0,0,0,0.6)] border-t border-white/10">
+                <div className="flex justify-around items-center w-full px-4 pb-6 pt-3">
+                    <Link to="/shop" className="flex flex-col items-center justify-center text-primary bg-surface-variant rounded-2xl px-4 py-1.5 transition-all">
+                        <span className="material-symbols-outlined">shopping_bag</span>
+                        <span className="font-['Inter'] text-[10px] font-medium uppercase tracking-widest mt-1">Shop</span>
+                    </Link>
+                    <Link to="/gallery" className="flex flex-col items-center justify-center text-on-surface-variant px-4 py-1.5 hover:text-white transition-colors">
+                        <span className="material-symbols-outlined">smartphone</span>
+                        <span className="font-['Inter'] text-[10px] font-medium uppercase tracking-widest mt-1">Gallery</span>
+                    </Link>
+                    <Link to="/" className="flex flex-col items-center justify-center text-on-surface-variant px-4 py-1.5 hover:text-white transition-colors">
+                        <span className="material-symbols-outlined">home</span>
+                        <span className="font-['Inter'] text-[10px] font-medium uppercase tracking-widest mt-1">Home</span>
+                    </Link>
+                    <div className="flex flex-col items-center justify-center text-on-surface-variant px-4 py-1.5 hover:text-white transition-colors">
+                        <span className="material-symbols-outlined">shopping_cart</span>
+                        <span className="font-['Inter'] text-[10px] font-medium uppercase tracking-widest mt-1">Cart</span>
+                    </div>
+                    <Link to="/about" className="flex flex-col items-center justify-center text-on-surface-variant px-4 py-1.5 hover:text-white transition-colors">
+                        <span className="material-symbols-outlined">info</span>
+                        <span className="font-['Inter'] text-[10px] font-medium uppercase tracking-widest mt-1">About</span>
+                    </Link>
+                </div>
+            </nav>
+        );
+
+        // --- Pages ---
+
+        const HomePage = () => {
+            const navigate = useNavigate();
+            return (
+                <div className="min-h-screen flex flex-col">
+                    <Navbar />
+                    <main className="pt-16">
+                        {/* Hero Section */}
+                        <section className="relative min-h-[795px] flex items-center overflow-hidden px-6 lg:px-24">
+                            <div className="absolute inset-0 z-0">
+                                <div className="absolute inset-0 bg-gradient-to-r from-background via-background/70 to-transparent z-10"></div>
+                                <img alt="iPhone 15 Pro" className="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCSCW7grvK9UbbWv6s3Dh6KSxm97wC9jmvVIeN10o5_jyLdwCeHCcXuegWI0x-f5-A1d_M6A2B64z6V3WBPFLiW1l9psIVOQ2IymiSLFujNwePhuUjuJ0cSpjiLt-RmMXStDIbhpzGLoL38xeJjFo2nZTsDYWahtK-J_-Zuw8YXrfKK8_PcqXlc-cwxGK9n0M70EEIEMre2Toi0Suof0l98OVQIPPcT1fSSd3dDmuDKaFgXrUgbLtf5zbGruW2qzZqYktaot9W_FEpR"/>
+                            </div>
+                            <div className="relative z-20 max-w-3xl">
+                                <h1 className="text-5xl md:text-7xl font-headline font-extrabold tracking-tighter leading-[0.9] mb-6">
+                                    Premium iPhones <br/>& Accessories <span className="text-gradient">You Can Trust.</span>
+                                </h1>
+                                <p className="text-lg md:text-xl text-on-surface-variant max-w-xl mb-10 font-body leading-relaxed">
+                                    Shop new and refurbished devices at the best prices in Ghana. Curated quality for the discerning professional.
+                                </p>
+                                <div className="flex flex-col sm:flex-row gap-4">
+                                    <button onClick={() => navigate('/shop')} className="px-10 py-4 bg-primary text-primary-dark rounded-full font-bold text-lg obsidian-glow transition-all hover:bg-accent active:scale-95">
+                                        Shop Now
+                                    </button>
+                                    <button onClick={() => navigate('/gallery')} className="px-10 py-4 bg-surface-variant/60 backdrop-blur-md text-on-surface rounded-full font-bold text-lg border border-white/20 hover:bg-surface-variant transition-colors">
+                                        View Deals
+                                    </button>
+                                </div>
+                            </div>
+                        </section>
+
+                        {/* Featured Products */}
+                        <section className="py-24 bg-surface-container-low">
+                            <div className="max-w-7xl mx-auto px-6">
+                                <div className="flex justify-between items-end mb-12">
+                                    <div>
+                                        <span className="text-on-surface-variant font-bold tracking-widest text-xs uppercase mb-2 block">Curated Selection</span>
+                                        <h2 className="text-3xl md:text-4xl font-headline font-bold">Featured Arrivals</h2>
+                                    </div>
+                                    <Link to="/shop" className="text-primary font-semibold hover:underline decoration-2 underline-offset-8">Browse All</Link>
+                                </div>
+                                <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                                    {[
+                                        {id: '13pro', name: 'iPhone 13 Pro', price: '7,500', cap: '128GB', color: 'Sierra Blue', status: 'Refurbished'},
+                                        {id: '15', name: 'iPhone 15', price: '9,500', cap: '256GB', color: 'Midnight Black', status: 'Brand New'},
+                                        {id: 'watch9', name: 'Apple Watch Series 9', price: '4,200', cap: '45mm', color: 'Space Gray', status: 'Brand New'}
+                                    ].map((item, idx) => (
+                                        <div key={idx} onClick={() => navigate(`/product/${item.id}`)} className="cursor-pointer product-card group bg-surface-container rounded-2xl overflow-hidden transition-all hover:translate-y-[-8px] obsidian-glow">
+                                            <div className="relative aspect-square overflow-hidden bg-surface-container-high">
+                                                <div className="absolute inset-0 bg-white/5 opacity-0 group-hover:opacity-100 transition-opacity z-5"></div>
+                                                <img alt={item.name} className="product-image w-full h-full object-contain mix-blend-lighten scale-90 group-hover:scale-100" src={idx === 0 ? 'https://lh3.googleusercontent.com/aida-public/AB6AXuBr8AdW_QmkpkT53EUKIhd4qt6ToKygT63NhtEjKAMg0zFMLjlG5hbkPNoigqHBrm3MnGpCGOMvUGXOPIlAuZp3oQQmHkj_d3fnZqe1Rp_prwJvBlheA6MYjUZ0Dljh3pSdVlViMgACWj-5d9onZnFSGd_30Blj7fnD18-4lNggKC1TBpF9ga6XjCMDLE2NmmihpFohA8-AHUXZZn74_ydnDti6vu9kvEyyLfwLqNkbtgb4sgKUfZNb2Se_Fex_px-HAfBN_iWhuxAO' : idx === 1 ? 'https://lh3.googleusercontent.com/aida-public/AB6AXuA1VRdLEbvpCUHGuh-V-gz0IQ7aB-Haxq2P9U1xsP551pb_VJJd4MsBYigfwPimfxpfPTb8EZ4uJ8UAfJYXIaUMAMHPL5GvVg5rWTSMjuMbdCup_CvAuca4lCdcVJeEF_C3HMIL9n-EvscjhGn1r0vDuPWGmpZ_O2PyZIwidli0qk7oBas5dTWDziJW-YGZWNLSakkNms4PUFrj3Quf_pkxyYB_ee97kAa3swttxJxtpARAw1iu5dn5vkl_gwwGVki_Vp4oARg7MEGl' : 'https://lh3.googleusercontent.com/aida-public/AB6AXuAKaPkiegBDRVO_it7IUNmKuEuK_7WKuMCCvv4n3ukmnZvJmDkxeo5kVJ_Ah4h-74ruGp_RLKCsZfeuVzU9CLQYfYf2Lrn3MdYt46xkLIuvXOlYqdlMg9xT8Hdkr0d9HSlFnRynP9B5PhHg2SmOHKBYO57wUlOBoShLe6BxYNUugiwfJXKccUCkKEZdOBOtyWyVt4WcOM_UpJVuNdNlUMjDmWcFGYdfiB3zzCFtJX-udlby5-5TUzns4X7cHnah-b0WIs92uBOU5Mgp'} />
+                                                <span className="absolute top-4 right-4 bg-surface-bright/80 backdrop-blur px-3 py-1 rounded-lg text-[10px] font-bold uppercase tracking-widest">{item.status}</span>
+                                            </div>
+                                            <div className="p-8">
+                                                <h3 className="text-xl font-headline font-bold mb-2">{item.name}</h3>
+                                                <p className="text-on-surface-variant text-sm mb-4 font-body">{item.cap} • {item.color}</p>
+                                                <p className="text-2xl font-bold text-primary font-body">₵{item.price}</p>
+                                            </div>
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+                        </section>
+                    </main>
+                    <Footer />
+                    <BottomNav />
+                </div>
+            );
+        };
+
+        const ShopPage = () => {
+            const navigate = useNavigate();
+            const products = [
+                {id: '13pro', name: 'iPhone 13 Pro', price: '7,500', cap: '128GB', color: 'Sierra Blue', status: 'Refurbished', img: 'https://lh3.googleusercontent.com/aida-public/AB6AXuBr8AdW_QmkpkT53EUKIhd4qt6ToKygT63NhtEjKAMg0zFMLjlG5hbkPNoigqHBrm3MnGpCGOMvUGXOPIlAuZp3oQQmHkj_d3fnZqe1Rp_prwJvBlheA6MYjUZ0Dljh3pSdVlViMgACWj-5d9onZnFSGd_30Blj7fnD18-4lNggKC1TBpF9ga6XjCMDLE2NmmihpFohA8-AHUXZZn74_ydnDti6vu9kvEyyLfwLqNkbtgb4sgKUfZNb2Se_Fex_px-HAfBN_iWhuxAO'},
+                {id: '11', name: 'iPhone 11', price: '3,800', cap: '64GB', color: 'Midnight Black', status: 'Refurbished', img: 'https://lh3.googleusercontent.com/aida-public/AB6AXuDyHP1eWCzItyeZ2ftzBBYY20WnOfNCackaIYjnMh2r0IqscVc-_r21f8ihvtO8bRH_cl_cuqbacNaRtentn2RWDM2PHKmpKFqGWanbpdReHjhOxqiI7CLbgwDDIYeurHghEldcSinJnFNHt1dEJyjN3QXmodaQjgTBMsPbzrJPgwuh3emptGU9LwfkpO1IoL2wzGzrChFS_tuIXjts068V9NCiXlSNBuTOzZbAwJ2Td3BnLKde_HZLCMafvnjN7W0SrNqr7Yx2GCqe'},
+                {id: '15', name: 'iPhone 15', price: '9,500', cap: '256GB', color: 'Midnight Black', status: 'Brand New', img: 'https://lh3.googleusercontent.com/aida-public/AB6AXuA1VRdLEbvpCUHGuh-V-gz0IQ7aB-Haxq2P9U1xsP551pb_VJJd4MsBYigfwPimfxpfPTb8EZ4uJ8UAfJYXIaUMAMHPL5GvVg5rWTSMjuMbdCup_CvAuca4lCdcVJeEF_C3HMIL9n-EvscjhGn1r0vDuPWGmpZ_O2PyZIwidli0qk7oBas5dTWDziJW-YGZWNLSakkNms4PUFrj3Quf_pkxyYB_ee97kAa3swttxJxtpARAw1iu5dn5vkl_gwwGVki_Vp4oARg7MEGl'},
+                {id: 's23', name: 'Samsung S23 Ultra', price: '14,200', cap: '512GB', color: 'Phantom Black', status: 'New', img: 'https://lh3.googleusercontent.com/aida-public/AB6AXuCMeR1oBfjIPYBD7ZoBgQ_WjyNiNcvbQdfrBdkksA_0-5lZfXJeS4SucXZls1RzM_V6fonCyXenICECpnI1-Vn0KpEGYfDWum8R9TWyAREtPIMa1Kx4eJRb0GssTORyYKt9Q9rPGODi9No5iGTqHFEdogxHc1SCYURlfToUaTQFxVCzDRCO6kdhKX9bnOV5HPkIPNZpTfqcUynnDmlIG9QA24R_GAf4TPgEq8BdgMDYAWhD2SsPzibW4PfbRfRPPLFSI0VXm1KFXQhi'},
+                {id: 'airpods', name: 'AirPods Pro 2', price: '3,400', cap: 'USB-C', color: 'White', status: 'New', img: 'https://lh3.googleusercontent.com/aida-public/AB6AXuA0NVCo-CJxYAytvb_gkBVtUbcmOgOsDQ8-YPmOjrtA2l8gLizUhh1ANmO14ZQcWFAumTgy3NtfzjXehX2nebNcAY0kGkHEM-kN7ey2_aQcAZ6WRb4WDSyk0X-OisxeH687crL5lVPltBkdYuc-uf0Bn3GUKkm4xyjKiPgFtO1T3-PmCsHorXNveCG3ll_xojJfTXxbTEIbmaHvz_dICBwwXApoQz2GA6cFOQZgfZyMEH92hO929sfLpig0AylfEDv9x6Z7o4_37x22'},
+                {id: 'watch9', name: 'Apple Watch Series 9', price: '4,200', cap: '45mm', color: 'Space Gray', status: 'Brand New', img: 'https://lh3.googleusercontent.com/aida-public/AB6AXuAKaPkiegBDRVO_it7IUNmKuEuK_7WKuMCCvv4n3ukmnZvJmDkxeo5kVJ_Ah4h-74ruGp_RLKCsZfeuVzU9CLQYfYf2Lrn3MdYt46xkLIuvXOlYqdlMg9xT8Hdkr0d9HSlFnRynP9B5PhHg2SmOHKBYO57wUlOBoShLe6BxYNUugiwfJXKccUCkKEZdOBOtyWyVt4WcOM_UpJVuNdNlUMjDmWcFGYdfiB3zzCFtJX-udlby5-5TUzns4X7cHnah-b0WIs92uBOU5Mgp'},
+                {id: '14pm', name: 'iPhone 14 Pro Max', price: '11,800', cap: '512GB', color: 'Deep Purple', status: 'Refurbished', img: 'https://lh3.googleusercontent.com/aida-public/AB6AXuA1VRdLEbvpCUHGuh-V-gz0IQ7aB-Haxq2P9U1xsP551pb_VJJd4MsBYigfwPimfxpfPTb8EZ4uJ8UAfJYXIaUMAMHPL5GvVg5rWTSMjuMbdCup_CvAuca4lCdcVJeEF_C3HMIL9n-EvscjhGn1r0vDuPWGmpZ_O2PyZIwidli0qk7oBas5dTWDziJW-YGZWNLSakkNms4PUFrj3Quf_pkxyYB_ee97kAa3swttxJxtpARAw1iu5dn5vkl_gwwGVki_Vp4oARg7MEGl'},
+                {id: 'ipad', name: 'iPad Air 5', price: '8,900', cap: '256GB', color: 'Space Gray', status: 'Brand New', img: 'https://lh3.googleusercontent.com/aida-public/AB6AXuD_TZyhLKrxgbyq_qy1jw1c_fiCFi7IFnRVHdEmnAXpK1OG_f_RBzjRsvEuk8tv2AdY-soWA5220ZNv_mgr3KL40WLiKsEg3Ennz_oWPYMIOcm7qVCWzxjgpBPG4XfowcQJC2TVuXsdeV6nw3eoUCWdwlIB28150OQ3LrvY0HWQa5oT6wAHZCTTUwVt-yFjthol81GjORwbIGFWU2PRPU0asBAhvgcO3sM-Upjuhj2lbZAd4HwI8igbJZc2eSOBTY_Z8uBx_AsPxw-v'},
+                {id: 'magsafe', name: 'MagSafe Charger', price: '1,200', cap: '15W', color: 'White', status: 'New', img: 'https://lh3.googleusercontent.com/aida-public/AB6AXuA0NVCo-CJxYAytvb_gkBVtUbcmOgOsDQ8-YPmOjrtA2l8gLizUhh1ANmO14ZQcWFAumTgy3NtfzjXehX2nebNcAY0kGkHEM-kN7ey2_aQcAZ6WRb4WDSyk0X-OisxeH687crL5lVPltBkdYuc-uf0Bn3GUKkm4xyjKiPgFtO1T3-PmCsHorXNveCG3ll_xojJfTXxbTEIbmaHvz_dICBwwXApoQz2GA6cFOQZgfZyMEH92hO929sfLpig0AylfEDv9x6Z7o4_37x22'},
+            ];
+
+            return (
+                <div className="min-h-screen flex flex-col">
+                    <Navbar />
+                    <main className="pt-24 pb-20 px-6 max-w-7xl mx-auto w-full">
+                        <section className="mb-20">
+                            <div className="relative rounded-3xl overflow-hidden h-[300px] md:h-[400px] flex items-end p-8 md:p-12">
+                                <div className="absolute inset-0 z-0">
+                                    <img className="w-full h-full object-cover opacity-50" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAiWS2xVey4xDCZKrZGyXnYatvDD9zEF-caReLYHqybl1RDl8HBDNkaUNtc1UBCGIY-4308akA7a0Ix5z7_KPDAx_HPnE11C92r7IRjjleRHvGGDJEJ4fDJKiMF_SotoqG82QvVIV3PVWpDit9YYg3JFg1Bs1zFJhMcJvDixux3X9eAqw4uFWrcRdvFErGrL20OHE0wh6IkII09wDVNQWwUxkG-60QflwIVHpUT_a413djfNOEPHS8cJemDLWC7WFpLu7fen4h-nz88"/>
+                                    <div className="absolute inset-0 bg-gradient-to-t from-background via-background/20 to-transparent"></div>
+                                </div>
+                                <div className="relative z-10 max-w-2xl">
+                                    <span className="text-on-surface-variant font-headline text-sm tracking-[0.3em] uppercase mb-4 block">New Arrivals</span>
+                                    <h2 className="text-5xl md:text-6xl font-headline font-extrabold tracking-tight mb-6 uppercase">CURATED <br/>PRECISION.</h2>
+                                    <p className="text-on-surface-variant text-lg max-w-md font-body">Experience premium technology. Authenticity guaranteed across every device.</p>
+                                </div>
+                            </div>
+                        </section>
+                        
+                        <div className="flex flex-col lg:flex-row gap-12">
+                            <aside className="w-full lg:w-64 flex-shrink-0 space-y-10">
+                                <div>
+                                    <h3 className="font-headline text-xs font-bold uppercase tracking-widest text-on-surface-variant mb-6">Category</h3>
+                                    <div className="space-y-3 font-body">
+                                        <label className="flex items-center gap-3 cursor-pointer group">
+                                            <div className="w-5 h-5 rounded bg-primary flex items-center justify-center">
+                                                <span className="material-symbols-outlined text-xs text-primary-dark">check</span>
+                                            </div>
+                                            <span className="text-sm font-medium">All Products</span>
+                                        </label>
+                                        <label className="flex items-center gap-3 cursor-pointer group">
+                                            <div className="w-5 h-5 rounded bg-surface-container-highest transition-colors"></div>
+                                            <span className="text-sm font-medium text-on-surface-variant group-hover:text-on-surface transition-colors">iPhones</span>
+                                        </label>
+                                        <label className="flex items-center gap-3 cursor-pointer group">
+                                            <div className="w-5 h-5 rounded bg-surface-container-highest transition-colors"></div>
+                                            <span className="text-sm font-medium text-on-surface-variant group-hover:text-on-surface transition-colors">Accessories</span>
+                                        </label>
+                                    </div>
+                                </div>
+                                <div className="pt-6 border-t border-white/10">
+                                    <button className="w-full py-4 rounded-full bg-surface-variant hover:bg-surface-variant/80 transition-colors text-xs font-bold uppercase tracking-widest">Clear Filters</button>
+                                </div>
+                            </aside>
+
+                            <div className="flex-1">
+                                <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-8">
+                                    {products.map(item => (
+                                        <div key={item.id} className="product-card group bg-surface-container-low rounded-2xl overflow-hidden transition-all duration-500 hover:-translate-y-2">
+                                            <div className="aspect-square relative flex items-center justify-center p-12 overflow-hidden bg-surface-container-high">
+                                                <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent group-hover:scale-110 transition-transform duration-700 z-5"></div>
+                                                <img className="product-image relative z-10 w-full h-full object-contain mix-blend-lighten" src={item.img}/>
+                                                <span className="absolute top-6 right-6 px-3 py-1 rounded-lg bg-surface-container-highest/80 backdrop-blur-md text-[10px] font-bold text-on-surface-variant uppercase tracking-widest z-20">{item.status}</span>
+                                                
+                                                <div className="overlay-gradient"></div>
+                                                <div className="button-overlay z-30">
+                                                    <button onClick={() => navigate(`/product/${item.id}`)} className="flex-1 py-3 rounded-xl bg-primary text-primary-dark hover:bg-accent font-bold text-xs uppercase tracking-widest transition-all flex items-center justify-center gap-2">
+                                                        <span className="material-symbols-outlined text-sm">open_in_new</span>
+                                                        View
+                                                    </button>
+                                                    <button className="flex-1 py-3 rounded-xl bg-primary-dark text-primary hover:bg-surface-variant border border-white/30 font-bold text-xs uppercase tracking-widest transition-all flex items-center justify-center gap-2">
+                                                        <span className="material-symbols-outlined text-sm">add_shopping_cart</span>
+                                                        Cart
+                                                    </button>
+                                                </div>
+                                            </div>
+                                            <div className="p-8 space-y-4">
+                                                <div className="flex justify-between items-start">
+                                                    <div>
+                                                        <h3 className="font-headline text-lg font-bold tracking-tight">{item.name}</h3>
+                                                        <p className="text-xs text-on-surface-variant mt-1 font-body">{item.cap} • {item.color}</p>
+                                                    </div>
+                                                    <span className="text-primary font-bold text-lg font-body">₵{item.price}</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+                        </div>
+                    </main>
+                    <Footer />
+                    <BottomNav />
+                </div>
+            );
+        };
+
+        const GalleryPage = () => {
+            const navigate = useNavigate();
+            const galleryItems = [
+                {name: 'iPhone 15 Pro Max', price: '18,500', cap: '256GB', color: 'Titanium Natural', img: 'https://lh3.googleusercontent.com/aida-public/AB6AXuDoQBUFf9uium4Gh4kgnnN5UfZkuz1IjzzHKQK1pAgPZdSdiSz98UOPueB2gNOHY3gKAa8X0gIia0zwi1wnlLlW6bhfZCJ0jaiMcvHUxbd2G48oclUUO_sA0Rb_YHQ7I11dMfqdp6_v04_nFDSCMrfg1T2FeVfrF2KskmY6kqNkP42YY9A2WTRcvBhJcQw5KtHi4X7Z7g_Z_x_uXh3u779kwuixGok3nVl8e9hS9PVZLE9AVyzgTFzLlIV51hBvS_6VoL_D6_VmtEd1'},
+                {name: 'Apple Watch Ultra 2', price: '12,200', cap: '49mm', color: 'Ocean Band', img: 'https://lh3.googleusercontent.com/aida-public/AB6AXuDchmYdsgwn2FXcHmlxTzAXUsWN8AWZy4fT_VJxEM-J1fBqdNb_Mfl0DTAGjGFhg0dBlNu1PUv9AuIx0_3y-Kfe0dGoTCbeCd0etQIzknoOVmEYLMxcqM4AnMRUaLED_X1SQdzmvfl7HXcMvCT4hu9VA7jwMh2fsSlV10Fhf2VEykWMhmzx51cVsIfcwptvN_nUFN49GO0O6ByNYUefl93tkYRZixC2VerejzmFmjsEx50TjjZpwnkcwrlQI16Jrwp_D5Kk1YSW_hbW'},
+                {name: 'iPad Pro 11" M2', price: '15,800', cap: '256GB', color: 'Wi-Fi', img: 'https://lh3.googleusercontent.com/aida-public/AB6AXuD_TZyhLKrxgbyq_qy1jw1c_fiCFi7IFnRVHdEmnAXpK1OG_f_RBzjRsvEuk8tv2AdY-soWA5220ZNv_mgr3KL40WLiKsEg3Ennz_oWPYMIOcm7qVCWzxjgpBPG4XfowcQJC2TVuXsdeV6nw3eoUCWdwlIB28150OQ3LrvY0HWQa5oT6wAHZCTTUwVt-yFjthol81GjORwbIGFWU2PRPU0asBAhvgcO3sM-Upjuhj2lbZAd4HwI8igbJZc2eSOBTY_Z8uBx_AsPxw-v'},
+                {name: 'MacBook Air M2', price: '16,500', cap: '8GB/256GB', color: 'Midnight', img: 'https://lh3.googleusercontent.com/aida-public/AB6AXuBd-Sxbjv8cCvsI0X7wYPpM1ZWaJHdPZkAxcToyJ_3Fd3mD3GRIlW4H8-hw8ZwZvk1tYgYmJfNnUFxENgE41e_wErsAuou7rYioBEt6-izeOfFbFNOZlNj41bS7SOfqEUeo_O9VTrtG40ghTnyfcpAQLjCC5YKRXxEwJ77Hc3vqG3MT7fiuifFFPAz8ME4SbXnTM_vbaHAUZd_vVa0kipp1muoeuD4BYjCTamrSfom6pClqp0x4KKiJiVFQ0mDHkqD1S1ay2i7sNBQX'},
+                {name: 'iPhone 12', price: '6,200', cap: '128GB', color: 'Pacific Blue', img: 'https://lh3.googleusercontent.com/aida-public/AB6AXuDyHP1eWCzItyeZ2ftzBBYY20WnOfNCackaIYjnMh2r0IqscVc-_r21f8ihvtO8bRH_cl_cuqbacNaRtentn2RWDM2PHKmpKFqGWanbpdReHjhOxqiI7CLbgwDDIYeurHghEldcSinJnFNHt1dEJyjN3QXmodaQjgTBMsPbzrJPgwuh3emptGU9LwfkpO1IoL2wzGzrChFS_tuIXjts068V9NCiXlSNBuTOzZbAwJ2Td3BnLKde_HZLCMafvnjN7W0SrNqr7Yx2GCqe'},
+                {name: 'AirPods Max', price: '6,800', cap: 'Spatial Audio', color: 'Space Gray', img: 'https://lh3.googleusercontent.com/aida-public/AB6AXuA0NVCo-CJxYAytvb_gkBVtUbcmOgOsDQ8-YPmOjrtA2l8gLizUhh1ANmO14ZQcWFAumTgy3NtfzjXehX2nebNcAY0kGkHEM-kN7ey2_aQcAZ6WRb4WDSyk0X-OisxeH687crL5lVPltBkdYuc-uf0Bn3GUKkm4xyjKiPgFtO1T3-PmCsHorXNveCG3ll_xojJfTXxbTEIbmaHvz_dICBwwXApoQz2GA6cFOQZgfZyMEH92hO929sfLpig0AylfEDv9x6Z7o4_37x22'},
+                {name: 'Apple Watch SE', price: '2,400', cap: '40mm', color: 'Midnight', img: 'https://lh3.googleusercontent.com/aida-public/AB6AXuAKaPkiegBDRVO_it7IUNmKuEuK_7WKuMCCvv4n3ukmnZvJmDkxeo5kVJ_Ah4h-74ruGp_RLKCsZfeuVzU9CLQYfYf2Lrn3MdYt46xkLIuvXOlYqdlMg9xT8Hdkr0d9HSlFnRynP9B5PhHg2SmOHKBYO57wUlOBoShLe6BxYNUugiwfJXKccUCkKEZdOBOtyWyVt4WcOM_UpJVuNdNlUMjDmWcFGYdfiB3zzCFtJX-udlby5-5TUzns4X7cHnah-b0WIs92uBOU5Mgp'},
+                {name: 'Magic Keyboard', price: '3,100', cap: 'iPad Pro 11"', color: 'White', img: 'https://lh3.googleusercontent.com/aida-public/AB6AXuA0NVCo-CJxYAytvb_gkBVtUbcmOgOsDQ8-YPmOjrtA2l8gLizUhh1ANmO14ZQcWFAumTgy3NtfzjXehX2nebNcAY0kGkHEM-kN7ey2_aQcAZ6WRb4WDSyk0X-OisxeH687crL5lVPltBkdYuc-uf0Bn3GUKkm4xyjKiPgFtO1T3-PmCsHorXNveCG3ll_xojJfTXxbTEIbmaHvz_dICBwwXApoQz2GA6cFOQZgfZyMEH92hO929sfLpig0AylfEDv9x6Z7o4_37x22'},
+            ];
+
+            return (
+                <div className="min-h-screen flex flex-col">
+                    <Navbar />
+                    <main className="pt-24 pb-32 px-6 max-w-screen-xl mx-auto w-full">
+                        <section className="mb-12">
+                            <h1 className="font-headline font-extrabold text-5xl md:text-7xl tracking-tighter mb-4 leading-none">The Obsidian <span className="text-gradient">Gallery.</span></h1>
+                            <p className="text-on-surface-variant max-w-xl text-lg leading-relaxed font-body">Curating the world's most powerful hardware for Africa's ambitious. Reliability meets premium status.</p>
+                        </section>
+
+                        <div className="flex items-center gap-3 overflow-x-auto hide-scrollbar mb-12 py-2">
+                            {['All Collections', 'iPhones', 'Tablets', 'Watches', 'Accessories'].map((cat, i) => (
+                                <button key={cat} className={`flex-shrink-0 px-6 py-2.5 rounded-full font-semibold text-sm transition-all active:scale-95 font-body ${i===0 ? 'bg-primary text-primary-dark' : 'bg-surface-container-high text-on-surface-variant hover:text-on-surface'}`}>{cat}</button>
+                            ))}
+                        </div>
+
+                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+                            {galleryItems.map((prod, i) => (
+                                <div key={i} className="product-card group bg-surface-container-low rounded-2xl overflow-hidden flex flex-col transition-all duration-300 hover:translate-y-[-8px]">
+                                    <div className="relative h-72 w-full obsidian-gradient p-8 flex items-center justify-center overflow-hidden">
+                                        <div className="absolute inset-0 bg-white/5 blur-3xl rounded-full scale-50 group-hover:scale-100 transition-transform duration-700 z-5"></div>
+                                        <img className="product-image relative z-10 h-full w-auto object-contain transition-transform duration-500 group-hover:scale-110" src={prod.img}/>
+                                        <span className="absolute top-4 left-4 bg-primary text-primary-dark text-[10px] font-black uppercase tracking-widest px-3 py-1 rounded-lg z-20">PICK</span>
+                                    </div>
+                                    <div className="p-6 flex flex-col flex-grow">
+                                        <div className="mb-4">
+                                            <p className="text-on-surface-variant text-[10px] font-bold uppercase tracking-widest mb-1 font-body">Collection</p>
+                                            <h3 className="font-headline font-bold text-lg leading-tight">{prod.name}</h3>
+                                            <p className="text-on-surface-variant text-xs mt-1 font-body">{prod.cap} • {prod.color}</p>
+                                        </div>
+                                        <div className="mt-auto">
+                                            <div className="text-2xl font-black text-primary mb-6 font-body">₵{prod.price}</div>
+                                            <div className="grid grid-cols-2 gap-3">
+                                                <button className="bg-surface-variant/40 backdrop-blur-md text-on-surface text-xs font-bold py-3 rounded-lg hover:bg-surface-variant transition-colors font-body">Details</button>
+                                                <button className="bg-primary text-primary-dark text-xs font-bold py-3 rounded-lg flex items-center justify-center gap-2 transition-all hover:bg-accent active:scale-95 font-body">Order</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    </main>
+                    <Footer />
+                    <BottomNav />
+                </div>
+            );
+        };
+
+        const ProductDetailPage = () => {
+            const navigate = useNavigate();
+            return (
+                <div className="min-h-screen flex flex-col">
+                    <Navbar />
+                    <main className="pt-24 pb-20 max-w-7xl mx-auto px-6 w-full">
+                        <nav className="flex items-center gap-2 mb-8 text-on-surface-variant text-sm font-body">
+                            <Link to="/shop" className="hover:text-primary transition-colors">Shop</Link>
+                            <span className="material-symbols-outlined text-xs">chevron_right</span>
+                            <span className="text-on-surface">iPhone 13 Pro</span>
+                        </nav>
+                        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
+                            <div className="lg:col-span-7 grid grid-cols-1 gap-6">
+                                <div className="relative aspect-square rounded-2xl overflow-hidden bg-surface-container-low group">
+                                    <img alt="iPhone 13 Pro" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC__ctmDKRRkdZcsU1dky5MNra6c_tvQVbYPx31vCPUDdSR4nSEEPZYaIp9kbB_4DE1aTA-JQB-zv26XU8vHzd6rbXDg-Wa3Jntk8NyA7sKVyGQeHXeSL08WSPoVtOkFZnHQGlWxOTnzh11NaEnmzjKV8MFMh5T-9pe1NnCd0YEvMTm8suQFfVTHHKIYCSQgPMl2nj6ejanrY6cw3a4NabV9st1GqSvuVMOcaXmovgEq22K6CAGFv3cLUrSC51RmzcrTPW0SMEEWynv"/>
+                                    <div className="absolute top-6 left-6">
+                                        <span className="bg-primary text-primary-dark px-4 py-1 rounded-lg text-xs font-bold tracking-wide shadow-lg font-body">Refurbished - Grade A</span>
+                                    </div>
+                                </div>
+                                <div className="grid grid-cols-4 gap-4">
+                                    {[1, 2, 3, 4].map(i => (
+                                        <button key={i} className={`aspect-square rounded-xl overflow-hidden transition-all ${i===1 ? 'ring-2 ring-primary' : 'opacity-60 hover:opacity-100'}`}>
+                                            <img src={`https://lh3.googleusercontent.com/aida-public/AB6AXuBpZtRB7RxoSL3xu-8BXhEpu9CgTJ_Nk7zvKMS9wLcPWCSCoWKTr3q-amSZDa24iMjRjOGVsd_kZuNujHDBEPpN5OQXT7QUy9KpofERSgW-5777Ua1viHIKdJ2PuoE5wK_4zL61PJa5PhCuty0X-Gv4e4c0oyCmKsHu-VMWtfLAhkTn1u0NZvz66zQytrbZrNW8lN-HIr-rxJ03guU3W1Lo4B2DgFi6QEFMGAsTLsayKbFnaxx4vq-F-AXHoEhvWlSDo7mznYqQeWjv`} className="w-full h-full object-cover" />
+                                        </button>
+                                    ))}
+                                </div>
+                            </div>
+                            <div className="lg:col-span-5 sticky top-28 space-y-10">
+                                <div>
+                                    <h1 className="text-4xl md:text-5xl font-extrabold font-headline tracking-tighter mb-2">iPhone 13 Pro <span className="text-on-surface-variant font-light">(Refurbished)</span></h1>
+                                    <div className="flex items-center gap-4 mt-4">
+                                        <span className="text-3xl font-bold text-primary font-headline tracking-tight">₵7,500</span>
+                                        <div className="flex items-center gap-1 px-3 py-1 bg-surface-container-high rounded-full border border-white/20 font-body">
+                                            <span className="material-symbols-outlined text-primary text-sm">battery_full</span>
+                                            <span className="text-sm font-semibold text-on-surface">92% Health</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className="grid grid-cols-2 gap-4 font-body">
+                                    <div className="bg-surface-container-low p-4 rounded-xl border border-white/10">
+                                        <p className="text-on-surface-variant text-xs uppercase tracking-widest mb-1 font-bold">Storage</p>
+                                        <p className="text-lg font-bold">128GB</p>
+                                    </div>
+                                    <div className="bg-surface-container-low p-4 rounded-xl border border-white/10">
+                                        <p className="text-on-surface-variant text-xs uppercase tracking-widest mb-1 font-bold">Color</p>
+                                        <p className="text-lg font-bold">Sierra Blue</p>
+                                    </div>
+                                </div>
+                                <div className="space-y-4">
+                                    <button className="w-full bg-primary text-primary-dark font-bold py-5 rounded-xl shadow-lg shadow-white/20 transition-all flex items-center justify-center gap-2 group font-headline uppercase tracking-widest hover:bg-accent active:scale-95">
+                                        <span className="material-symbols-outlined group-hover:scale-110 transition-transform">shopping_cart</span>
+                                        Add to Cart
+                                    </button>
+                                    <a className="w-full bg-[#25D366] text-primary-dark font-bold py-5 rounded-xl hover:brightness-110 transition-all flex items-center justify-center gap-2 font-headline uppercase tracking-widest" href="https://wa.me/233000000000">
+                                        Order via WhatsApp
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </main>
+                    <Footer />
+                    <BottomNav />
+                </div>
+            );
+        };
+
+        const AboutPage = () => (
+            <div className="min-h-screen flex flex-col">
+                <Navbar />
+                <main className="pt-24">
+                    <section className="relative px-6 py-20 overflow-hidden">
+                        <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center gap-16">
+                            <div className="flex-1 space-y-8 z-10">
+                                <span className="text-on-surface-variant font-headline tracking-[0.3em] uppercase text-xs font-bold">The Obsidian Gallery</span>
+                                <h1 className="text-5xl md:text-7xl font-headline font-extrabold tracking-tighter leading-none uppercase">
+                                    CURATING <br/> <span className="text-gradient">EXCELLENCE.</span>
+                                </h1>
+                                <p className="text-on-surface-variant text-lg max-w-lg leading-relaxed font-body">
+                                    At PROSPER, we don't just sell devices; we provide the ultimate standard in premium mobility for the discerning African professional. Our mission is built on unyielding trust and rigorous quality.
+                                </p>
+                            </div>
+                            <div className="flex-1 relative">
+                                <div className="absolute inset-0 bg-white/5 blur-[100px] rounded-full"></div>
+                                <img alt="iPhone Display" className="relative z-10 w-full h-[500px] object-cover rounded-2xl shadow-2xl" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDs5l2l54KfQEEFiEa1XCetM7MkM0NFsZDkyJAxIlr8-EzDG_YatNGCvfkfK6raghG4shdPKWViWNynshxfu9UcZJHzxldw7Yo3AozpfLExLgheCInglayeklUOolGGpjga-GmaaZU5BgTTJz9N2SHVzzgfKtevcdzWVwwtljp6_i2z_DE_dAq7L6dvb2LC8YBZW8jaR8Kv0Ezi2CA7vs13XyS5Y6kzEaOkiwtU1MaJus2i4dfRvp7zIsQe8sKMTy78pTM51eBakvCS"/>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section className="bg-surface-container-low py-24 px-6">
+                        <div className="max-w-7xl mx-auto">
+                            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                                {[
+                                    {icon: 'verified_user', title: '40-Point Inspection', desc: 'Every device undergoes comprehensive diagnostics by certified technicians in Accra.'},
+                                    {icon: 'diamond', title: 'A-Grade Standard', desc: 'Only the highest physical and functional grades available globally make the cut.'},
+                                    {icon: 'shield_verified', title: 'Prosper Guarantee', desc: '2-year local warranty on all devices. Your investment is fully protected.'}
+                                ].map((feature, i) => (
+                                    <div key={i} className="bg-surface-container p-10 rounded-2xl space-y-4 hover:bg-surface-container-high transition-colors font-body border border-white/10">
+                                        <span className="material-symbols-outlined text-primary text-4xl">{feature.icon}</span>
+                                        <h3 className="text-xl font-headline font-bold">{feature.title}</h3>
+                                        <p className="text-on-surface-variant text-sm leading-relaxed">{feature.desc}</p>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                    </section>
+                </main>
+                <Footer />
+                <BottomNav />
+            </div>
+        );
+
+        // --- App Entry Point ---
+
+        const App = () => {
+            const { pathname } = useLocation();
+
+            useEffect(() => {
+                window.scrollTo(0, 0);
+            }, [pathname]);
+
+            return (
+                <Routes>
+                    <Route path="/" element={<HomePage />} />
+                    <Route path="/shop" element={<ShopPage />} />
+                    <Route path="/gallery" element={<GalleryPage />} />
+                    <Route path="/about" element={<AboutPage />} />
+                    <Route path="/product/:id" element={<ProductDetailPage />} />
+                </Routes>
+            );
+        };
+
+        const root = createRoot(document.getElementById('root'));
+        root.render(
+            <MemoryRouter>
+                <App />
+            </MemoryRouter>
+        );
+    </script>
+</body>
+</html>
