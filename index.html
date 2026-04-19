@@ -1,209 +1,296 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Modern Fashion - Curated Collections</title>
-    <link rel="stylesheet" href="site.css">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Kwabs Store Online — Curated Collections</title>
+  <meta name="description"
+    content="Discover curated high-end collections at Kwabs Store Online. Premium fashion, accessories, and home goods." />
+  <link rel="stylesheet" href="src/css/styles.css" />
 </head>
+
 <body>
-    <!-- Navigation Bar -->
-    <nav class="navbar">
-        <div class="nav-container">
-            <div class="logo">V3ST<br><h6>by rager&co</h6></div>
-            <ul class="nav-menu">
-                <li><a href="#home" class="nav-link">Home</a></li>
-                <li><a href="#collections" class="nav-link">Collections</a></li>
-                <li><a href="#about" class="nav-link">About</a></li>
-                <li><a href="#contact" class="nav-link">Contact</a></li>
-            </ul>
-            <div class="hamburger">
-                <span></span>
-                <span></span>
-                <span></span>
-            </div>
-        </div>
-    </nav>
 
-    <!-- Hero Section -->
-    <section class="hero" id="home">
-        <div class="hero-background">
-            <div class="hero-overlay"></div>
+  <!-- ═══ Top App Bar ═══ -->
+  <header class="top-app-bar glass" id="topBar">
+    <div style="display:flex;align-items:center;gap:1rem;">
+      <button class="icon-btn" onclick="document.getElementById('sideDrawer').classList.add('open')">
+        <span class="material-symbols-outlined">menu</span>
+      </button>
+      <span class="top-app-bar__title font-headline">Kwabs Store</span>
+    </div>
+    <div class="top-app-bar__actions">
+      <a href="cart.html" class="icon-btn" id="cartBtn">
+        <span class="material-symbols-outlined">shopping_bag</span>
+        <span class="cart-badge" data-cart-badge style="display:none;">0</span>
+      </a>
+    </div>
+  </header>
+
+  <!-- ═══ Side Drawer ═══ -->
+  <div class="modal-overlay" id="sideDrawer" onclick="if(event.target===this) this.classList.remove('open')">
+    <div class="modal-content"
+      style="position:fixed;left:0;top:0;height:100%;width:20rem;max-width:80vw;border-radius:0 var(--radius-xl) var(--radius-xl) 0;transform:translateX(-100%);display:flex;flex-direction:column;padding:2rem;">
+      <div style="margin-bottom:3rem;">
+        <h2 class="font-headline"
+          style="font-weight:900;font-size:1.125rem;letter-spacing:-0.04em;text-transform:uppercase;">Kwabs Store</h2>
+        <p class="text-label-sm" style="color:var(--outline);">Luxury Commerce</p>
+      </div>
+      <nav style="flex:1;display:flex;flex-direction:column;gap:0.25rem;">
+        <a href="index.html"
+          style="display:flex;align-items:center;gap:1rem;padding:0.875rem 1rem;border-radius:var(--radius-lg);background:var(--primary);color:var(--on-primary);font-family:var(--font-headline);font-size:0.875rem;font-weight:700;">
+          <span class="material-symbols-outlined" style="font-size:1.25rem;">storefront</span>
+          Shop
+        </a>
+        <a href="cart.html"
+          style="display:flex;align-items:center;gap:1rem;padding:0.875rem 1rem;border-radius:var(--radius-lg);font-family:var(--font-headline);font-size:0.875rem;font-weight:600;color:var(--secondary);">
+          <span class="material-symbols-outlined" style="font-size:1.25rem;">shopping_cart</span>
+          Cart
+        </a>
+        <div style="height:1px;background:var(--outline-variant);opacity:0.3;margin:1rem 0;"></div>
+        <a href="admin-login.html"
+          style="display:flex;align-items:center;gap:1rem;padding:0.875rem 1rem;border-radius:var(--radius-lg);font-family:var(--font-headline);font-size:0.875rem;font-weight:600;color:var(--secondary);">
+          <span class="material-symbols-outlined" style="font-size:1.25rem;">admin_panel_settings</span>
+          Admin Panel
+        </a>
+      </nav>
+      <div
+        style="display:flex;align-items:center;gap:0.75rem;padding-top:1rem;border-top:1px solid var(--outline-variant);opacity:0.5;">
+        <span style="font-weight:700;font-size:0.875rem;">Kwabs Store</span>
+        <span style="font-size:0.625rem;color:var(--outline);">v1.0.0</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ Main Content ═══ -->
+  <main class="page-content">
+
+    <!-- Hero Search Section -->
+    <section style="margin-bottom:2.5rem;">
+      <div style="margin-bottom:2rem;">
+        <h2 class="font-headline text-headline-lg">Curated<br>Collections</h2>
+        <p class="text-body-md" style="color:var(--on-surface-variant);max-width:20rem;margin-top:0.5rem;">
+          Discovery made effortless. High-end pieces for the modern lifestyle.
+        </p>
+      </div>
+      <div style="position:relative;">
+        <div style="position:absolute;top:50%;left:1rem;transform:translateY(-50%);pointer-events:none;">
+          <span class="material-symbols-outlined" style="color:var(--outline);">search</span>
         </div>
-        <div class="hero-content">
-            <h1 class="hero-title">Timeless Elegance</h1>
-            <p class="hero-subtitle">Discover curated fashion that speaks to your style</p>
-            <button class="cta-button">Explore Collection</button>
-        </div>
+        <input id="searchInput" type="text" placeholder="Search curated products..." class="minimal-input"
+          style="padding-left:3rem;border-radius:var(--radius-xl);height:3.5rem;background:var(--surface-container-high);border-bottom:none;" />
+      </div>
     </section>
 
-    <!-- Image Carousel Section -->
-    <section class="carousel-section" id="collections">
-        <h2 class="section-title">Our Gallery</h2>
-        
-        <div class="carousel-container">
-            <div class="carousel-wrapper">
-                <div class="carousel-track">
-                    <div class="carousel-slide" style="background-image: url('image1.jpg');">
-                        <div class="slide-overlay"></div>
-                    </div>
-                    <div class="carousel-slide" style="background-image: url('image2.jpg');">
-                        <div class="slide-overlay"></div>
-                    </div>
-                    <div class="carousel-slide" style="background-image: url('image3.jpg');">
-                        <div class="slide-overlay"></div>
-                    </div>
-                    <div class="carousel-slide" style="background-image: url('image4.jpg');">
-                        <div class="slide-overlay"></div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Navigation Buttons -->
-            <button class="carousel-btn carousel-btn-prev" aria-label="Previous slide">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <polyline points="15 18 9 12 15 6"></polyline>
-                </svg>
-            </button>
-            <button class="carousel-btn carousel-btn-next" aria-label="Next slide">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <polyline points="9 18 15 12 9 6"></polyline>
-                </svg>
-            </button>
-
-            <!-- Dot Indicators -->
-            <div class="carousel-dots">
-                <button class="dot active" data-slide="0" aria-label="Go to slide 1"></button>
-                <button class="dot" data-slide="1" aria-label="Go to slide 2"></button>
-                <button class="dot" data-slide="2" aria-label="Go to slide 3"></button>
-                <button class="dot" data-slide="3" aria-label="Go to slide 4"></button>
-            </div>
-        </div>
+    <!-- Category Pills -->
+    <section style="margin-bottom:3rem;">
+      <div class="category-pills" id="categoryPills">
+        <!-- Rendered by JS -->
+      </div>
     </section>
 
-    <!-- Products/Shop Section -->
-    <section class="shop-section" id="shop">
-        <div class="shop-header">
-            <h2 class="section-title">Complete Collection</h2>
-            <p class="shop-subtitle">Premium fashion, watches, chains & accessories</p>
-        </div>
-
-        <!-- CLOTHING CATEGORY -->
-        <div class="category-section">
-            <h3 class="category-title">Clothing</h3>
-            <div class="products-grid">
-                <div class="product-card"><div class="product-image"><img src="artem-beliaikin-J8jNCi2J05Y-unsplash.jpg" alt="Classic Striped Shirt"><div class="product-overlay"><span class="quick-view">Quick View</span></div><span class="product-badge">New</span></div><div class="product-info"><h4 class="product-title">Classic Striped Shirt</h4><p class="product-category">Casual</p><div class="product-rating"><span class="stars">★★★★★</span><span class="rating-count">(48)</span></div><div class="product-footer"><span class="product-price">$89.99</span><span class="add-btn">Add to Cart</span></div></div></div>
-
-                <div class="product-card"><div class="product-image"><img src="ryan-hoffman-6Nub980bI3I-unsplash.jpg" alt="Minimalist Black Tee"><div class="product-overlay"><span class="quick-view">Quick View</span></div><span class="product-badge sale">Sale</span></div><div class="product-info"><h4 class="product-title">Minimalist Black Tee</h4><p class="product-category">Basics</p><div class="product-rating"><span class="stars">★★★★☆</span><span class="rating-count">(32)</span></div><div class="product-footer"><div class="price-section"><span class="product-price">$49.99</span><span class="original-price">$65.00</span></div><span class="add-btn">Add to Cart</span></div></div></div>
-
-                <div class="product-card"><div class="product-image"><img src="lisa-anna-_Ssh8Z8ENQM-unsplash.jpg" alt="Cream Linen Jacket"><div class="product-overlay"><span class="quick-view">Quick View</span></div></div><div class="product-info"><h4 class="product-title">Cream Linen Jacket</h4><p class="product-category">Outerwear</p><div class="product-rating"><span class="stars">★★★★★</span><span class="rating-count">(61)</span></div><div class="product-footer"><span class="product-price">$129.99</span><span class="add-btn">Add to Cart</span></div></div></div>
-
-                <div class="product-card"><div class="product-image"><img src="matthew-moloney-YeGao3uk8kI-unsplash.jpg" alt="Tailored Trousers"><div class="product-overlay"><span class="quick-view">Quick View</span></div><span class="product-badge">New</span></div><div class="product-info"><h4 class="product-title">Tailored Trousers</h4><p class="product-category">Bottoms</p><div class="product-rating"><span class="stars">★★★★★</span><span class="rating-count">(55)</span></div><div class="product-footer"><span class="product-price">$99.99</span><span class="add-btn">Add to Cart</span></div></div></div>
-
-                <div class="product-card"><div class="product-image"><img src="jason-leung-EtOMMg1nSR8-unsplash.jpg" alt="Premium Denim"><div class="product-overlay"><span class="quick-view">Quick View</span></div></div><div class="product-info"><h4 class="product-title">Premium Denim</h4><p class="product-category">Casual</p><div class="product-rating"><span class="stars">★★★★☆</span><span class="rating-count">(78)</span></div><div class="product-footer"><span class="product-price">$119.99</span><span class="add-btn">Add to Cart</span></div></div></div>
-
-                <div class="product-card"><div class="product-image"><img src="manito-silk-gEjpULILIlA-unsplash.jpg" alt="Silk Camisole"><div class="product-overlay"><span class="quick-view">Quick View</span></div><span class="product-badge sale">Sale</span></div><div class="product-info"><h4 class="product-title">Silk Camisole</h4><p class="product-category">Essentials</p><div class="product-rating"><span class="stars">★★★★★</span><span class="rating-count">(42)</span></div><div class="product-footer"><div class="price-section"><span class="product-price">$59.99</span><span class="original-price">$79.99</span></div><span class="add-btn">Add to Cart</span></div></div></div>
-
-                <div class="product-card"><div class="product-image"><img src="adiel-gavish-7E-bTt8i28k-unsplash.jpg" alt="Wool Sweater"><div class="product-overlay"><span class="quick-view">Quick View</span></div></div><div class="product-info"><h4 class="product-title">Wool Sweater</h4><p class="product-category">Knits</p><div class="product-rating"><span class="stars">★★★★★</span><span class="rating-count">(89)</span></div><div class="product-footer"><span class="product-price">$109.99</span><span class="add-btn">Add to Cart</span></div></div></div>
-
-                <div class="product-card"><div class="product-image"><img src="nimble-made-FYCRjmSlKqg-unsplash.jpg" alt="White Button-Up"><div class="product-overlay"><span class="quick-view">Quick View</span></div></div><div class="product-info"><h4 class="product-title">White Button-Up</h4><p class="product-category">Formal</p><div class="product-rating"><span class="stars">★★★★☆</span><span class="rating-count">(35)</span></div><div class="product-footer"><span class="product-price">$84.99</span><span class="add-btn">Add to Cart</span></div></div></div>
-
-                <div class="product-card"><div class="product-image"><img src="robert-richman-vcTKFYNZop4-unsplash.jpg" alt="Summer Linen Shirt"><div class="product-overlay"><span class="quick-view">Quick View</span></div><span class="product-badge">New</span></div><div class="product-info"><h4 class="product-title">Summer Linen Shirt</h4><p class="product-category">Casual</p><div class="product-rating"><span class="stars">★★★★★</span><span class="rating-count">(52)</span></div><div class="product-footer"><span class="product-price">$74.99</span><span class="add-btn">Add to Cart</span></div></div></div>
-            </div>
-        </div>
-
-        <!-- WATCHES CATEGORY -->
-        <div class="category-section">
-            <h3 class="category-title">Watches</h3>
-            <div class="products-grid">
-                <div class="product-card"><div class="product-image"><img src="pippen-4W3_klt1UIc-unsplash.jpg" alt="Classic Gold Watch"><div class="product-overlay"><span class="quick-view">Quick View</span></div><span class="product-badge">New</span></div><div class="product-info"><h4 class="product-title">Classic Gold Watch</h4><p class="product-category">Luxury</p><div class="product-rating"><span class="stars">★★★★★</span><span class="rating-count">(156)</span></div><div class="product-footer"><span class="product-price">$299.99</span><span class="add-btn">Add to Cart</span></div></div></div>
-
-                <div class="product-card"><div class="product-image"><img src="yearone-Sif56HC4rZI-unsplash.jpg" alt="Minimalist Black Watch"><div class="product-overlay"><span class="quick-view">Quick View</span></div><span class="product-badge sale">Sale</span></div><div class="product-info"><h4 class="product-title">Minimalist Black Watch</h4><p class="product-category">Modern</p><div class="product-rating"><span class="stars">★★★★★</span><span class="rating-count">(203)</span></div><div class="product-footer"><div class="price-section"><span class="product-price">$149.99</span><span class="original-price">$199.99</span></div><span class="add-btn">Add to Cart</span></div></div></div>
-
-                <div class="product-card"><div class="product-image"><img src="pat-taylor-12V36G17IbQ-unsplash.jpg" alt="Leather Strap Watch"><div class="product-overlay"><span class="quick-view">Quick View</span></div></div><div class="product-info"><h4 class="product-title">Leather Strap Watch</h4><p class="product-category">Classic</p><div class="product-rating"><span class="stars">★★★★☆</span><span class="rating-count">(98)</span></div><div class="product-footer"><span class="product-price">$189.99</span><span class="add-btn">Add to Cart</span></div></div></div>
-
-                <div class="product-card"><div class="product-image"><img src="solees-time-8FNI1knWYBA-unsplash.jpg" alt="Chronograph Watch"><div class="product-overlay"><span class="quick-view">Quick View</span></div><span class="product-badge">New</span></div><div class="product-info"><h4 class="product-title">Chronograph Watch</h4><p class="product-category">Sport</p><div class="product-rating"><span class="stars">★★★★★</span><span class="rating-count">(127)</span></div><div class="product-footer"><span class="product-price">$259.99</span><span class="add-btn">Add to Cart</span></div></div></div>
-
-                <div class="product-card"><div class="product-image"><img src="deena-englard-abThP5SERao-unsplash.jpg" alt="Rose Gold Watch"><div class="product-overlay"><span class="quick-view">Quick View</span></div></div><div class="product-info"><h4 class="product-title">Rose Gold Watch</h4><p class="product-category">Elegant</p><div class="product-rating"><span class="stars">★★★★★</span><span class="rating-count">(87)</span></div><div class="product-footer"><span class="product-price">$279.99</span><span class="add-btn">Add to Cart</span></div></div></div>
-
-                <div class="product-card"><div class="product-image"><img src="ali-bokhari-EP3T5MjRl7k-unsplash.jpg" alt="Vintage Pocket Watch"><div class="product-overlay"><span class="quick-view">Quick View</span></div><span class="product-badge sale">Sale</span></div><div class="product-info"><h4 class="product-title">Vintage Pocket Watch</h4><p class="product-category">Heritage</p><div class="product-rating"><span class="stars">★★★★☆</span><span class="rating-count">(64)</span></div><div class="product-footer"><div class="price-section"><span class="product-price">$219.99</span><span class="original-price">$299.99</span></div><span class="add-btn">Add to Cart</span></div></div></div>
-
-                <div class="product-card"><div class="product-image"><img src="indra-projects-XqCPROiO7Fw-unsplash.jpg" alt="Smartwatch Pro"><div class="product-overlay"><span class="quick-view">Quick View</span></div></div><div class="product-info"><h4 class="product-title">Smartwatch Pro</h4><p class="product-category">Tech</p><div class="product-rating"><span class="stars">★★★★★</span><span class="rating-count">(245)</span></div><div class="product-footer"><span class="product-price">$349.99</span><span class="add-btn">Add to Cart</span></div></div></div>
-
-                <div class="product-card"><div class="product-image"><img src="jacek-szczycinski-ano0RyPjroo-unsplash.jpg" alt="Mesh Strap Watch"><div class="product-overlay"><span class="quick-view">Quick View</span></div><span class="product-badge">New</span></div><div class="product-info"><h4 class="product-title">Mesh Strap Watch</h4><p class="product-category">Modern</p><div class="product-rating"><span class="stars">★★★★★</span><span class="rating-count">(134)</span></div><div class="product-footer"><span class="product-price">$169.99</span><span class="add-btn">Add to Cart</span></div></div></div>
-
-                <div class="product-card"><div class="product-image"><img src="reamogetse-litheko-zipz4G3b0KY-unsplash.jpg" alt="Diamond Set Watch"><div class="product-overlay"><span class="quick-view">Quick View</span></div></div><div class="product-info"><h4 class="product-title">Diamond Set Watch</h4><p class="product-category">Luxury</p><div class="product-rating"><span class="stars">★★★★★</span><span class="rating-count">(76)</span></div><div class="product-footer"><span class="product-price">$499.99</span><span class="add-btn">Add to Cart</span></div></div></div>
-            </div>
-        </div>
-
-        <!-- CHAINS CATEGORY -->
-        <div class="category-section">
-            <h3 class="category-title"> Chains & Necklaces</h3>
-            <div class="products-grid">
-                <div class="product-card"><div class="product-image"><img src="ruan-richard-rodrigues-QwRwbZe6dWc-unsplash.jpg" alt="Gold Chain"><div class="product-overlay"><span class="quick-view">Quick View</span></div><span class="product-badge">New</span></div><div class="product-info"><h4 class="product-title">Gold Chain Necklace</h4><p class="product-category">Gold</p><div class="product-rating"><span class="stars">★★★★★</span><span class="rating-count">(189)</span></div><div class="product-footer"><span class="product-price">$159.99</span><span class="add-btn">Add to Cart</span></div></div></div>
-
-                <div class="product-card"><div class="product-image"><img src="jasmin-egger-InCoMA7yKTU-unsplash.jpg" alt="Silver Chain"><div class="product-overlay"><span class="quick-view">Quick View</span></div><span class="product-badge sale">Sale</span></div><div class="product-info"><h4 class="product-title">Silver Chain Necklace</h4><p class="product-category">Silver</p><div class="product-rating"><span class="stars">★★★★★</span><span class="rating-count">(167)</span></div><div class="product-footer"><div class="price-section"><span class="product-price">$89.99</span><span class="original-price">$119.99</span></div><span class="add-btn">Add to Cart</span></div></div></div>
-
-                <div class="product-card"><div class="product-image"><img src="patty-zavala-SniDFooLoow-unsplash.jpg" alt="Pendant Chain"><div class="product-overlay"><span class="quick-view">Quick View</span></div></div><div class="product-info"><h4 class="product-title">Pendant Chain</h4><p class="product-category">Statement</p><div class="product-rating"><span class="stars">★★★★☆</span><span class="rating-count">(123)</span></div><div class="product-footer"><span class="product-price">$129.99</span><span class="add-btn">Add to Cart</span></div></div></div>
-
-                <div class="product-card"><div class="product-image"><img src="k-studios-KcHrKGdR86U-unsplash.jpg" alt="Beaded Chain"><div class="product-overlay"><span class="quick-view">Quick View</span></div><span class="product-badge">New</span></div><div class="product-info"><h4 class="product-title">Beaded Chain</h4><p class="product-category">Beads</p><div class="product-rating"><span class="stars">★★★★★</span><span class="rating-count">(98)</span></div><div class="product-footer"><span class="product-price">$79.99</span><span class="add-btn">Add to Cart</span></div></div></div>
-
-                <div class="product-card"><div class="product-image"><img src="gabriel-dalton-YbLLE8N16h8-unsplash.jpg" alt="Twisted Chain"><div class="product-overlay"><span class="quick-view">Quick View</span></div></div><div class="product-info"><h4 class="product-title">Twisted Chain</h4><p class="product-category">Classic</p><div class="product-rating"><span class="stars">★★★★★</span><span class="rating-count">(145)</span></div><div class="product-footer"><span class="product-price">$99.99</span><span class="add-btn">Add to Cart</span></div></div></div>
-
-                <div class="product-card"><div class="product-image"><img src="maxim-mox-fBmFplfbCQg-unsplash.jpg" alt="Layered Chains"><div class="product-overlay"><span class="quick-view">Quick View</span></div><span class="product-badge sale">Sale</span></div><div class="product-info"><h4 class="product-title">Layered Chains Set</h4><p class="product-category">Multi</p><div class="product-rating"><span class="stars">★★★★☆</span><span class="rating-count">(76)</span></div><div class="product-footer"><div class="price-section"><span class="product-price">$109.99</span><span class="original-price">$149.99</span></div><span class="add-btn">Add to Cart</span></div></div></div>
-
-                <div class="product-card"><div class="product-image"><img src="elliott-cirkovic-buMSS1tcrjA-unsplash.jpg" alt="Herringbone Chain"><div class="product-overlay"><span class="quick-view">Quick View</span></div></div><div class="product-info"><h4 class="product-title">Herringbone Chain</h4><p class="product-category">Pattern</p><div class="product-rating"><span class="stars">★★★★★</span><span class="rating-count">(112)</span></div><div class="product-footer"><span class="product-price">$139.99</span><span class="add-btn">Add to Cart</span></div></div></div>
-
-                <div class="product-card"><div class="product-image"><img src="deena-englard-3JkHYiGtT-Y-unsplash.jpg" alt="Rose Gold Chain"><div class="product-overlay"><span class="quick-view">Quick View</span></div><span class="product-badge">New</span></div><div class="product-info"><h4 class="product-title">Rose Gold Chain</h4><p class="product-category">Gold</p><div class="product-rating"><span class="stars">★★★★★</span><span class="rating-count">(89)</span></div><div class="product-footer"><span class="product-price">$169.99</span><span class="add-btn">Add to Cart</span></div></div></div>
-
-                <div class="product-card"><div class="product-image"><img src="jatin-saini-EJN-gtOODmA-unsplash.jpg" alt="Diamond Chain"><div class="product-overlay"><span class="quick-view">Quick View</span></div></div><div class="product-info"><h4 class="product-title">Diamond Chain</h4><p class="product-category">Luxury</p><div class="product-rating"><span class="stars">★★★★★</span><span class="rating-count">(54)</span></div><div class="product-footer"><span class="product-price">$399.99</span><span class="add-btn">Add to Cart</span></div></div></div>
-            </div>
-        </div>
-
-        <!-- ACCESSORIES CATEGORY -->
-        <div class="category-section">
-            <h3 class="category-title"> Accessories</h3>
-            <div class="products-grid">
-                <div class="product-card"><div class="product-image"><img src="seeetz-OTHeFuAhNZ0-unsplash.jpg" alt="Leather Belt"><div class="product-overlay"><span class="quick-view">Quick View</span></div><span class="product-badge">New</span></div><div class="product-info"><h4 class="product-title">Leather Belt</h4><p class="product-category">Belts</p><div class="product-rating"><span class="stars">★★★★★</span><span class="rating-count">(178)</span></div><div class="product-footer"><span class="product-price">$69.99</span><span class="add-btn">Add to Cart</span></div></div></div>
-
-                <div class="product-card"><div class="product-image"><img src="roberto-lopez-nYVfiHu5OIs-unsplash.jpg" alt="Silk Scarf"><div class="product-overlay"><span class="quick-view">Quick View</span></div><span class="product-badge sale">Sale</span></div><div class="product-info"><h4 class="product-title">Silk Scarf</h4><p class="product-category">Scarves</p><div class="product-rating"><span class="stars">★★★★☆</span><span class="rating-count">(92)</span></div><div class="product-footer"><div class="price-section"><span class="product-price">$44.99</span><span class="original-price">$59.99</span></div><span class="add-btn">Add to Cart</span></div></div></div>
-
-                <div class="product-card"><div class="product-image"><img src="philippe-jausions-R4wSVx2-DQ0-unsplash.jpg" alt="Leather Gloves"><div class="product-overlay"><span class="quick-view">Quick View</span></div></div><div class="product-info"><h4 class="product-title">Leather Gloves</h4><p class="product-category">Gloves</p><div class="product-rating"><span class="stars">★★★★★</span><span class="rating-count">(67)</span></div><div class="product-footer"><span class="product-price">$79.99</span><span class="add-btn">Add to Cart</span></div></div></div>
-
-                <div class="product-card"><div class="product-image"><img src="brina-blum-NB7SdHhSgOA-unsplash.jpg" alt="Wool Hat"><div class="product-overlay"><span class="quick-view">Quick View</span></div><span class="product-badge">New</span></div><div class="product-info"><h4 class="product-title">Wool Beanie</h4><p class="product-category">Hats</p><div class="product-rating"><span class="stars">★★★★★</span><span class="rating-count">(134)</span></div><div class="product-footer"><span class="product-price">$49.99</span><span class="add-btn">Add to Cart</span></div></div></div>
-
-                <div class="product-card"><div class="product-image"><img src="lucas-george-wendt-3xtCeUhqZWE-unsplash.jpg" alt="Sunglasses"><div class="product-overlay"><span class="quick-view">Quick View</span></div></div><div class="product-info"><h4 class="product-title">Premium Sunglasses</h4><p class="product-category">Eyewear</p><div class="product-rating"><span class="stars">★★★★★</span><span class="rating-count">(201)</span></div><div class="product-footer"><span class="product-price">$129.99</span><span class="add-btn">Add to Cart</span></div></div></div>
-
-                <div class="product-card"><div class="product-image"><img src="parisa-safaei-wf06v3VPr4A-unsplash.jpg" alt="Hair Clip"><div class="product-overlay"><span class="quick-view">Quick View</span></div><span class="product-badge sale">Sale</span></div><div class="product-info"><h4 class="product-title">Gold Hair Clip</h4><p class="product-category">Hair</p><div class="product-rating"><span class="stars">★★★★☆</span><span class="rating-count">(45)</span></div><div class="product-footer"><div class="price-section"><span class="product-price">$24.99</span><span class="original-price">$34.99</span></div><span class="add-btn">Add to Cart</span></div></div></div>
-
-                <div class="product-card"><div class="product-image"><img src="marjan-sadeghi-4CKKEVjXt6E-unsplash.jpg" alt="Leather Bracelet"><div class="product-overlay"><span class="quick-view">Quick View</span></div></div><div class="product-info"><h4 class="product-title">Leather Bracelet</h4><p class="product-category">Bracelets</p><div class="product-rating"><span class="stars">★★★★★</span><span class="rating-count">(156)</span></div><div class="product-footer"><span class="product-price">$59.99</span><span class="add-btn">Add to Cart</span></div></div></div>
-
-                <div class="product-card"><div class="product-image"><img src="raindrops-photography--Hl1n-iHAYk-unsplash.jpg" alt="Pearl Earrings"><div class="product-overlay"><span class="quick-view">Quick View</span></div><span class="product-badge">New</span></div><div class="product-info"><h4 class="product-title">Pearl Earrings</h4><p class="product-category">Jewelry</p><div class="product-rating"><span class="stars">★★★★★</span><span class="rating-count">(88)</span></div><div class="product-footer"><span class="product-price">$94.99</span><span class="add-btn">Add to Cart</span></div></div></div>
-
-                <div class="product-card"><div class="product-image"><img src="noman-khan-J9PGbtyQ08Q-unsplash.jpg" alt="Crossbody Bag"><div class="product-overlay"><span class="quick-view">Quick View</span></div></div><div class="product-info"><h4 class="product-title">Crossbody Bag</h4><p class="product-category">Bags</p><div class="product-rating"><span class="stars">★★★★★</span><span class="rating-count">(223)</span></div><div class="product-footer"><span class="product-price">$119.99</span><span class="add-btn">Add to Cart</span></div></div></div>
-            </div>
-        </div>
+    <!-- Featured Products -->
+    <section>
+      <div style="display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:2rem;">
+        <h3 class="font-headline text-headline-md" style="text-transform:uppercase;letter-spacing:-0.03em;">Featured
+          Products</h3>
+        <span class="text-label-sm"
+          style="color:var(--outline);border-bottom:1px solid var(--outline-variant);padding-bottom:0.25rem;cursor:pointer;"
+          id="viewAllBtn">VIEW ALL</span>
+      </div>
+      <div class="product-grid" id="productGrid">
+        <!-- Rendered by JS -->
+      </div>
+      <div id="emptyProducts" class="empty-state" style="display:none;">
+        <span class="material-symbols-outlined empty-state__icon">inventory_2</span>
+        <p class="empty-state__title">No products found</p>
+        <p class="empty-state__text">Try adjusting your search or browse different categories.</p>
+      </div>
     </section>
 
-    <!-- Toast Notification -->
-    <div class="toast" id="toast"></div>
-
-    <!-- Toast Notification -->
-    <div class="toast" id="toast"></div>
-
-    <!-- About Section -->
-    <section class="about" id="about">
-        <div class="about-content">
-            <h2>About Our Collection</h2>
-            <p>We believe that fashion is a form of self-expression. Each piece in our collection is carefully selected to represent quality, style, and timeless elegance. From minimalist basics to statement pieces, we curate designs that inspire confidence and creativity.</p>
-        </div>
+    <!-- Editorial Banner -->
+    <section style="margin-top:5rem;">
+      <div
+        style="background:var(--surface-container-low);border-radius:var(--radius-2xl);padding:2.5rem;display:flex;flex-direction:column;align-items:center;text-align:center;">
+        <span class="text-label-sm" style="color:var(--outline);letter-spacing:0.2em;margin-bottom:1rem;">The
+          Journal</span>
+        <h3 class="font-headline" style="font-size:1.875rem;font-weight:700;letter-spacing:-0.02em;margin-bottom:1rem;">
+          Summer Capsule '24</h3>
+        <p class="text-body-md"
+          style="color:var(--on-surface-variant);max-width:20rem;margin-bottom:2rem;line-height:1.6;">
+          Discover the pieces that define the season of light and leisure.
+        </p>
+        <button class="btn-primary"
+          style="width:auto;padding:0.875rem 2rem;font-size:0.75rem;letter-spacing:0.1em;text-transform:uppercase;">
+          Read More
+        </button>
+      </div>
     </section>
 
-    <!-- Footer -->
-    <footer class="footer">
-        <p>&copy; 2026 V3ST. All rights reserved.</p>
-    </footer>
+  </main>
 
-    
+  <!-- ═══ Bottom Navigation ═══ -->
+  <nav class="bottom-nav" id="bottomNav">
+    <a href="index.html" class="bottom-nav__item active">
+      <span class="material-symbols-outlined">home</span>
+      <span>Home</span>
+    </a>
+    <a href="index.html?search=true" class="bottom-nav__item">
+      <span class="material-symbols-outlined">search</span>
+      <span>Search</span>
+    </a>
+    <a href="cart.html" class="bottom-nav__item" style="position:relative;">
+      <span class="material-symbols-outlined">shopping_cart</span>
+      <span>Cart</span>
+      <span class="cart-badge" data-cart-badge
+        style="display:none;position:absolute;top:0.125rem;right:0.5rem;">0</span>
+    </a>
+    <a href="admin-login.html" class="bottom-nav__item">
+      <span class="material-symbols-outlined">person</span>
+      <span>Profile</span>
+    </a>
+  </nav>
+
+  <!-- ═══ Scripts ═══ -->
+  <script src="src/js/store.js"></script>
+  <script src="src/js/utils.js"></script>
+  <script>
+    // ─── Initialize ───────────────────────────────────────────
+    KwabsStore.initializeSeedData();
+
+    let activeCategory = 'all';
+    let searchQuery = '';
+
+    // ─── Render Category Pills ────────────────────────────────
+    function renderCategories() {
+      const categories = KwabsStore.getCategories();
+      const container = document.getElementById('categoryPills');
+
+      let html = `<button class="category-pill ${activeCategory === 'all' ? 'active' : ''}" data-cat="all">All</button>`;
+      categories.forEach(cat => {
+        html += `<button class="category-pill ${activeCategory === cat.id ? 'active' : ''}" data-cat="${cat.id}">${cat.name}</button>`;
+      });
+      container.innerHTML = html;
+
+      // Bind clicks
+      container.querySelectorAll('.category-pill').forEach(pill => {
+        pill.addEventListener('click', () => {
+          activeCategory = pill.dataset.cat;
+          renderCategories();
+          renderProducts();
+        });
+      });
+    }
+
+    // ─── Render Product Grid ──────────────────────────────────
+    function renderProducts() {
+      let products;
+
+      if (searchQuery) {
+        products = KwabsStore.searchProducts(searchQuery);
+        if (activeCategory !== 'all') {
+          products = products.filter(p => p.category_id === activeCategory);
+        }
+      } else {
+        products = KwabsStore.getProductsByCategory(activeCategory);
+      }
+
+      // Only show in-stock products for customers
+      products = products.filter(p => p.in_stock !== false);
+
+      const grid = document.getElementById('productGrid');
+      const empty = document.getElementById('emptyProducts');
+
+      if (products.length === 0) {
+        grid.style.display = 'none';
+        empty.style.display = 'flex';
+        return;
+      }
+
+      grid.style.display = '';
+      empty.style.display = 'none';
+
+      grid.innerHTML = products.map(product => {
+        const discountedPrice = KwabsUtils.calcDiscountedPrice(product.price, product.discount);
+        const hasDiscount = product.discount > 0;
+
+        return `
+          <div class="product-card" onclick="window.location.href='product-detail.html?id=${product.id}'">
+            <div class="product-card__image-wrap">
+              <img class="product-card__image" src="${product.image_url}" alt="${product.name}" loading="lazy" />
+              ${hasDiscount
+            ? `<div class="product-card__badge product-card__badge--discount">-${product.discount}%</div>`
+            : product.created_at && (Date.now() - new Date(product.created_at).getTime() < 7 * 86400000)
+              ? `<div class="product-card__badge product-card__badge--new">NEW</div>`
+              : ''
+          }
+              <button class="product-card__quick-add" onclick="event.stopPropagation(); quickAdd('${product.id}')">
+                <span class="material-symbols-outlined" style="color:#000;font-size:1.25rem;">add</span>
+              </button>
+            </div>
+            <div>
+              <h4 class="product-card__name">${product.name}</h4>
+              <div class="product-card__price">
+                <span class="product-card__price-current">${KwabsUtils.formatPrice(discountedPrice)}</span>
+                ${hasDiscount ? `<span class="product-card__price-original">${KwabsUtils.formatPrice(product.price)}</span>` : ''}
+              </div>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    // ─── Quick Add to Cart ────────────────────────────────────
+    function quickAdd(productId) {
+      const product = KwabsStore.getProductById(productId);
+      if (!product) return;
+      KwabsStore.addToCart(product);
+      KwabsUtils.toast(`${product.name} added to cart`);
+      KwabsUtils.updateCartBadge();
+    }
+
+    // ─── Search ───────────────────────────────────────────────
+    const searchInput = document.getElementById('searchInput');
+    searchInput.addEventListener('input', KwabsUtils.debounce((e) => {
+      searchQuery = e.target.value.trim();
+      renderProducts();
+    }, 250));
+
+    // ─── View All ─────────────────────────────────────────────
+    document.getElementById('viewAllBtn').addEventListener('click', () => {
+      activeCategory = 'all';
+      searchQuery = '';
+      searchInput.value = '';
+      renderCategories();
+      renderProducts();
+    });
+
+    // ─── Side Drawer fix transforms ───────────────────────────
+    const drawer = document.getElementById('sideDrawer');
+    const drawerContent = drawer.querySelector('.modal-content');
+    drawer.addEventListener('transitionend', () => { });
+    // Override modal-content transform for side drawer
+    const styleOverride = document.createElement('style');
+    styleOverride.textContent = `
+      #sideDrawer .modal-content { transform: translateX(-100%) !important; }
+      #sideDrawer.open .modal-content { transform: translateX(0) !important; }
+    `;
+    document.head.appendChild(styleOverride);
+
+    // ─── Focus search if param ────────────────────────────────
+    if (KwabsUtils.getParam('search') === 'true') {
+      searchInput.focus();
+    }
+
+    // ─── Cart change listener ─────────────────────────────────
+    KwabsStore.on('cart_changed', () => KwabsUtils.updateCartBadge());
+
+    // ─── Initial Render ───────────────────────────────────────
+    renderCategories();
+    renderProducts();
+    KwabsUtils.updateCartBadge();
+  </script>
 </body>
+
 </html>

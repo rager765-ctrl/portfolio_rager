@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Your Cart — Kwabs Store</title>
+  <link rel="stylesheet" href="src/css/styles.css" />
+</head>
+<body>
+
+  <!-- ═══ Top App Bar ═══ -->
+  <header class="top-app-bar glass">
+    <div style="display:flex;align-items:center;gap:1rem;">
+      <a href="index.html" class="icon-btn">
+        <span class="material-symbols-outlined">arrow_back</span>
+      </a>
+      <span class="top-app-bar__title font-headline">Your Cart</span>
+    </div>
+    <div class="top-app-bar__actions">
+      <button class="icon-btn" id="clearCartBtn" title="Clear Cart" style="display:none;">
+        <span class="material-symbols-outlined">delete_sweep</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- ═══ Main Content ═══ -->
+  <main class="page-content">
+
+    <!-- Cart Items -->
+    <div id="cartItems"></div>
+
+    <!-- Cart Empty State -->
+    <div id="emptyCart" class="empty-state" style="display:none;">
+      <span class="material-symbols-outlined empty-state__icon">shopping_cart</span>
+      <p class="empty-state__title">Your cart is empty</p>
+      <p class="empty-state__text">Start browsing our curated collections and add items to your cart.</p>
+      <a href="index.html" class="btn-primary" style="margin-top:2rem;width:auto;padding:1rem 2rem;font-size:0.8125rem;">
+        Continue Shopping
+      </a>
+    </div>
+
+    <!-- Cart Summary -->
+    <div id="cartSummary" style="display:none;margin-top:2rem;">
+      <div style="background:var(--surface-container-low);border-radius:var(--radius-xl);padding:1.5rem;">
+        <h3 class="section-header" style="margin-bottom:1rem;">Order Summary</h3>
+        <div style="display:flex;flex-direction:column;gap:0.75rem;">
+          <div style="display:flex;justify-content:space-between;font-size:0.875rem;">
+            <span style="color:var(--outline);">Subtotal (<span id="itemCount">0</span> items)</span>
+            <span id="subtotal" style="font-weight:600;"></span>
+          </div>
+          <div style="display:flex;justify-content:space-between;font-size:0.875rem;">
+            <span style="color:var(--outline);">Shipping</span>
+            <span style="font-weight:600;color:var(--primary);">FREE</span>
+          </div>
+          <div style="height:1px;background:var(--outline-variant);opacity:0.3;margin:0.5rem 0;"></div>
+          <div style="display:flex;justify-content:space-between;">
+            <span class="font-headline" style="font-weight:700;">Total</span>
+            <span id="totalPrice" class="font-headline" style="font-weight:800;font-size:1.25rem;"></span>
+          </div>
+        </div>
+      </div>
+
+      <a href="checkout.html" class="btn-primary" style="margin-top:1.5rem;">
+        Proceed to Checkout
+        <span class="material-symbols-outlined" style="font-size:1.125rem;">arrow_forward</span>
+      </a>
+
+      <a href="index.html" style="display:block;text-align:center;margin-top:1rem;font-size:0.8125rem;font-weight:600;color:var(--outline);">
+        Continue Shopping
+      </a>
+    </div>
+
+  </main>
+
+  <!-- ═══ Bottom Navigation ═══ -->
+  <nav class="bottom-nav">
+    <a href="index.html" class="bottom-nav__item">
+      <span class="material-symbols-outlined">home</span>
+      <span>Home</span>
+    </a>
+    <a href="index.html?search=true" class="bottom-nav__item">
+      <span class="material-symbols-outlined">search</span>
+      <span>Search</span>
+    </a>
+    <a href="cart.html" class="bottom-nav__item active" style="position:relative;">
+      <span class="material-symbols-outlined">shopping_cart</span>
+      <span>Cart</span>
+      <span class="cart-badge" data-cart-badge style="display:none;position:absolute;top:0.125rem;right:0.5rem;">0</span>
+    </a>
+    <a href="admin-login.html" class="bottom-nav__item">
+      <span class="material-symbols-outlined">person</span>
+      <span>Profile</span>
+    </a>
+  </nav>
+
+  <!-- ═══ Scripts ═══ -->
+  <script src="src/js/store.js"></script>
+  <script src="src/js/utils.js"></script>
+  <script>
+    KwabsStore.initializeSeedData();
+
+    function renderCart() {
+      const cart = KwabsStore.getCart();
+      const container = document.getElementById('cartItems');
+      const emptyState = document.getElementById('emptyCart');
+      const summary = document.getElementById('cartSummary');
+      const clearBtn = document.getElementById('clearCartBtn');
+
+      if (cart.length === 0) {
+        container.innerHTML = '';
+        emptyState.style.display = 'flex';
+        summary.style.display = 'none';
+        clearBtn.style.display = 'none';
+        return;
+      }
+
+      emptyState.style.display = 'none';
+      summary.style.display = 'block';
+      clearBtn.style.display = 'flex';
+
+      container.innerHTML = cart.map(item => {
+        const itemTotal = item.price * item.quantity;
+        return `
+          <div style="display:flex;gap:1rem;padding:1.25rem 0;align-items:flex-start;" class="cart-item">
+            <a href="product-detail.html?id=${item.product_id}" style="flex-shrink:0;">
+              <img src="${item.image_url}" alt="${item.name}"
+                style="width:5rem;height:6rem;object-fit:cover;border-radius:var(--radius-lg);background:var(--surface-container-low);" />
+            </a>
+            <div style="flex:1;min-width:0;">
+              <h4 class="font-headline" style="font-weight:700;font-size:0.9375rem;letter-spacing:-0.02em;margin-bottom:0.25rem;">
+                <a href="product-detail.html?id=${item.product_id}" style="color:inherit;">${item.name}</a>
+              </h4>
+              <span style="font-weight:700;font-size:0.875rem;">${KwabsUtils.formatPrice(item.price)}</span>
+              ${item.discount > 0 ? `<span style="font-size:0.625rem;color:var(--outline);text-decoration:line-through;margin-left:0.5rem;">${KwabsUtils.formatPrice(item.original_price)}</span>` : ''}
+
+              <div style="display:flex;align-items:center;justify-content:space-between;margin-top:0.75rem;">
+                <div class="qty-controls">
+                  <button class="qty-controls__btn" onclick="updateQty('${item.product_id}', ${item.quantity - 1})">−</button>
+                  <span class="qty-controls__value">${item.quantity}</span>
+                  <button class="qty-controls__btn" onclick="updateQty('${item.product_id}', ${item.quantity + 1})">+</button>
+                </div>
+                <div style="display:flex;align-items:center;gap:1rem;">
+                  <span style="font-weight:700;font-size:0.9375rem;">${KwabsUtils.formatPrice(itemTotal)}</span>
+                  <button onclick="removeItem('${item.product_id}')" style="color:var(--error);display:flex;align-items:center;"
+                    title="Remove">
+                    <span class="material-symbols-outlined" style="font-size:1.25rem;">close</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        `;
+      }).join('<div style="height:1px;background:var(--outline-variant);opacity:0.15;"></div>');
+
+      // Update summary
+      const total = KwabsStore.getCartTotal();
+      const count = KwabsStore.getCartItemCount();
+      document.getElementById('itemCount').textContent = count;
+      document.getElementById('subtotal').textContent = KwabsUtils.formatPrice(total);
+      document.getElementById('totalPrice').textContent = KwabsUtils.formatPrice(total);
+    }
+
+    function updateQty(productId, quantity) {
+      KwabsStore.updateCartQuantity(productId, quantity);
+      renderCart();
+      KwabsUtils.updateCartBadge();
+    }
+
+    function removeItem(productId) {
+      KwabsStore.removeFromCart(productId);
+      KwabsUtils.toast('Item removed from cart');
+      renderCart();
+      KwabsUtils.updateCartBadge();
+    }
+
+    document.getElementById('clearCartBtn').addEventListener('click', () => {
+      if (confirm('Clear all items from cart?')) {
+        KwabsStore.clearCart();
+        renderCart();
+        KwabsUtils.updateCartBadge();
+        KwabsUtils.toast('Cart cleared');
+      }
+    });
+
+    KwabsStore.on('cart_changed', () => KwabsUtils.updateCartBadge());
+    renderCart();
+    KwabsUtils.updateCartBadge();
+  </script>
+</body>
+</html>
